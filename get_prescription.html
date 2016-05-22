@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+<title>Home Page</title>
+<link href="css/get_prescription.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="">
+
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a href="index_doc.html">Home</a></li>
+<li><a href="Signin.html">Log Out</a></li>
+<li><a href="add_info.html">Add Information</a></li>
+<li><a href="">Scan</a></li>
+<li><a class="active" href="get_prescription.html">Get Prescription</a></li>
+<li><a href="pat_contactform.htm">Contact Us</a></li>
+</ul>
+</div>
+<div id="section">
+<br><br><br><br><br>
+<form id="get_prescription">
+
+
+
+<textarea readonly rows="10" cols="50" id="presc_id" placeholder="Prescription"></textarea><br><br>
+<input type="submit" name="Add" class="button"><br><br>
+</form>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+<script>
+	
+	
+	
+	$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+
+ Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+
+    var Tests = Parse.Object.extend("Tests");
+	var Disease = Parse.Object.extend("Disease");
+	var User = Parse.Object.extend("User");
+	var query = new Parse.Query(Tests);
+	var innerQuery = new Parse.Query(Disease);
+	var currentUser = Parse.User.current();
+	var id = currentUser.id;
+	var number = 1;
+	var number2 = 1;
+	var idArray = new Array;
+	
+    $("#get_prescription").submit(function(event) {
+		event.preventDefault();
+		
+		
+		getTest();
+      
+    
+		    
+		
+	});
+	
+	
+		function getTest() {
+		
+
+    
+
+	query.equalTo("userID", id);
+			query.find({
+				
+				success: function(results) {
+					
+					var output = "";
+					
+					
+						for (var i in results) {
+						
+						var	date = results[i].get("createdAt");
+						var prescription = results[i].get("prescription");
+						var id = results[i].id;
+						idArray.push(id);
+						
+						
+						
+						
+						
+					        
+						
+						
+						var output = output + "\n" + "Prescription " + number + "\n" +
+						               prescription + "\n" + "\n" + "Date: " + "\n" +
+									     date + "\n";
+									  
+						number++;			  
+									  
+									  
+									  
+									  
+					}
+						
+						
+									  
+					 $("#presc_id").html(output);				  
+					
+					
+					
+					
+				}, error: function(error) {
+					
+		                     alert("failed" + error.message);
+				}
+			});
+		
+		}
+
+
+</script>
+</body>
+</html>

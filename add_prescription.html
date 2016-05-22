@@ -1,0 +1,109 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+<title>Home Page</title>
+<link href="css/add_prescription.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a href="index_doc.html">Home</a></li>
+<li><a href="index.html" id="logout">Log Out</a></li>
+<li><a class="active" href="add_prescription.html">Add Prescription</a></li>
+<li><a href="patient_search.html">Patient Search</a></li>
+<li><a href="doc_contactform.html">Contact Us</a></li>
+</ul>
+</div>
+<div id="section">
+<br><br><br><br>
+<form id="add_prescription">
+
+<input type="text" id="patient_id" name="patient_id" placeholder="Patient ID"><br><br>
+<textarea rows="10" cols="50" id="presc_id" placeholder="Prescription"></textarea><br><br>
+<input type="submit" name="Add" class="button"><br><br>
+</form>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+<script>
+Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+    var Tests = Parse.Object.extend("Tests");
+	var User = Parse.Object.extend("User");
+	
+	
+	
+	var query = new Parse.Query(Tests);
+	
+	
+	
+	$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+
+	    $("#add_prescription").submit(function(event) {
+		
+		event.preventDefault();
+		
+		var id = $("#patient_id").val();
+		var prescription = $("#presc_id").val();
+		
+		
+		
+		
+		query.include("userID", id);
+		query.first( { 
+		
+		success: function(user){
+			
+	    
+			     
+				  user.set("prescription", prescription);
+		          
+				  
+			
+		        user.save(null, { success: function(user) {
+                alert("Add succesful");
+        
+      },
+      error: function(user, error) {
+        alert('Add Failed:'+ error.message);
+       }
+				});
+				
+			}, error: function(user,error){
+				
+				
+				
+	
+	              alert("ERRORRRRR");
+	
+	
+	
+				}
+				
+				});
+  
+	});
+	
+	$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+	
+</script>
+</body>
+</html>

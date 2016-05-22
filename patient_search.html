@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+<title>Home Page</title>
+<link href="css/pat_search.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a href="index_doc.html">Home</a></li>
+<li><a href="index.html" id="logout">Log Out</a></li>
+<li><a href="add_prescription.html">Add Prescription</a></li>
+<li><a class="active" href="patient_search.html">Patient Search</a></li>
+<li><a href="doc_contactform.html">Contact Us</a></li>
+</ul>
+</div>
+<div id="section">
+<br><br><br>
+<form id="pat_search">
+
+<input type="text" name="patient_id" id ="patient_id" placeholder="Patient ID">
+<input type="submit" class="button" id="search" value="Search"><br><br>
+<textarea readonly id="result_output" rows="10" cols="50" placeholder="Patient Basic information"></textarea><br><br>
+<input type="submit" class="button" value="Patient History" id="history_page"><br><br>
+</form>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+<script>
+
+
+$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+	
+	Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+    var User = Parse.Object.extend("User");
+	var query = new Parse.Query(User);
+	
+    $("#pat_search").submit(function(event) {
+		event.preventDefault();
+		
+		
+		
+		var id = $("#patient_id").val();
+		
+		
+		query.equalTo("objectId", id);
+		
+ query.first({
+  success: function(user) {
+	  
+    alert("success");
+	
+	var username = user.get("username");
+	var age = user.get("age");
+	var bloodType = user.get("Blood_Type");
+	var weight = user.get("weight");
+	var height = user.get("height");
+	
+	document.getElementById("result_output").innerHTML = "Patient Name: " + username + "\n\n" +
+	                                                     "Patient Age: " + age + "\n\n" +
+                                                         "Patient Blood Type: " + bloodType + "\n\n" +
+														 "Patient Weight: " + weight + "kg" + "\n\n" +
+														 "Patient Height: " + height + "cm" + "\n";
+  },                     
+  error: function(user,error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+  
+});
+
+	});
+	
+	$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+	
+	
+	$("#history_page").click(function(event) {
+		
+		window.location.href="doc_history_check.html";
+		
+		
+	});
+	
+	
+	
+	
+</script>
+</body>
+</html>

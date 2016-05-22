@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+<title>Home Page</title>
+<link href="css/index.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a class="active" href="index_doc.html">Home</a></li>
+<li><a href="index.html" id="logout">Log Out</a></li>
+<li><a href="add_prescription.html">Add Prescription</a></li>
+<li><a href="patient_search.html">Patient Search</a></li>
+<li><a href="doc_contactform.html">Contact Us</a></li>
+</ul>
+</div>
+<div id="section">
+<h1 id="doc_username"></h1>
+<p id="doc_id"></p>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+<script>
+
+Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+    var User = Parse.Object.extend("User");
+	var currentUser = Parse.User.current();
+	var id = currentUser.id;
+	
+	
+	
+	
+	var query = new Parse.Query(User);
+	
+ query.equalTo("objectId", id);
+ query.first({
+  success: function(user) {
+	  
+    console.log("success");
+	var username = user.get("username");
+	document.getElementById("doc_username").innerHTML = "Welcome, " + username;
+	document.getElementById("doc_id").innerHTML = "Your id: " + id;
+	
+    
+  },
+  error: function(user,error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+
+$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+	
+
+</script>
+</body>
+</html>

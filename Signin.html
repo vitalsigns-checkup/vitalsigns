@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Sign In</title>
+<link href="css/sign-in.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+  <script type="text/javascript" src="js/sign-in.js"></script>
+</head>
+
+<body>
+
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a class="active" href="Signin.html">Sign in</a></li>
+<li><a href="Signup.html">Sign up</a></li>
+<li><a href="contactform.htm">Contact Us</a></li>
+<li><a href="download.html">Download</a></li>
+</ul>
+</div>
+<div id="section">
+<br><br><br><br>
+<div id="login-form">
+<form id="signin">
+
+
+
+
+<p><input type="text"  id="signin-name" placeholder="Username" required></p>
+
+<p><input type="password"  id="signin-password" placeholder="Password" required></p>
+
+
+<button type="submit" class="button">Sign In</button>
+
+<p class="message">Not Registered? <a href="signup.html">Sign Up</a></p>
+<p class="message">Forgot your password? <a href="password_reset.html">Reset password</a></p>
+
+</form>
+</div>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+<script>
+
+
+	
+	Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+    var User = Parse.Object.extend("User");
+	
+    $("#signin").submit(function(event) {
+		event.preventDefault();
+		
+		if(checkValidation() == true) {
+		
+		var name = $("#signin-name").val();
+		var pass = $("#signin-password").val();
+		
+		Parse.User.logIn(name, pass,{ success: function(user){
+			      alert("Login Success");
+				  
+				  var query = new Parse.Query(User);
+var currentUser = Parse.User.current();
+var id = currentUser.id;
+
+query.get(id, {
+  success: function(user) {
+    console.log("success");
+    var type = user.get("user_type");
+    if(type == 1){ window.location.href="index_doc.html"; }
+    if(type == 2){ window.location.href="index_pat.html"; }
+  },
+  error: function(user, error) {
+    console.log("error");
+
+  }
+});
+				 
+			}, error: function(user,error){
+				
+				alert("log in error" + error.message);
+				}
+				
+				});
+		}
+		
+	});
+	
+		
+
+	
+	
+  
+
+</script>
+</body>
+</html>

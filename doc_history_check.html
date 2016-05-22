@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="css/mytest.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-latest.js"></script>
+<title>Scan and history</title>
+</head>
+
+<body>
+<div id="header">
+<h1> Vital Signs Checkup System <br> V.S.C.S </h1>
+</div>
+<div id="nav">
+<ul>
+<li><a href="index_doc.html">Home</a></li>
+<li><a href="index.html" id="logout">Log Out</a></li>
+<li><a href="add_prescription.html">Add Prescription</a></li>
+<li><a class ="active" href="patient_search.html">Patient Search</a></li>
+<li><a href="doc_contactform.html">Contact Us</a></li>
+</ul>
+</div>
+<div id="section">
+<br><br><br><br>
+<form id="test_check">
+<input type="text" id="patient_id" name="id" placeholder="Enter Patient ID"><br>
+<textarea rows="20"  id="history" readonly cols="50" placeholder="Patient's Tests list"></textarea>
+<br>
+<input type="submit" value="Step One" class="button">
+<br>
+<br>
+</form>
+<form id="disease_check">
+<textarea rows="20"  id="history2" readonly cols="50" placeholder="Patient Tests Results"></textarea>
+<br>
+<input type="submit" value="Step two" class="button">
+<br>
+<br>
+</form>
+</div>
+<div id="footer">
+Copyright &copy; VCSC
+</div>
+
+<script>
+
+Parse.initialize("5NlXZEFekfoFAm5GaNlxUbfX7zy8QIIrTvC4FH4m", "4z8FdnGKQ2mXA7X4VR02ItWOxiiv2StezJacPgCR");
+
+    var Tests = Parse.Object.extend("Tests");
+	var Disease = Parse.Object.extend("Disease");
+	var query = new Parse.Query(Tests);
+	var innerQuery = new Parse.Query(Disease);
+	var userID = document.getElementById("patient_id");
+	var number = 1;
+	var number2 = 1;
+	var idArray = new Array;
+	
+    $("#test_check").submit(function(event) {
+		event.preventDefault();
+		
+		
+		getTest();
+      
+    
+		    
+		
+	});
+	
+	$("#disease_check").submit(function(event) {
+		event.preventDefault();
+		
+		
+		
+       getDisease();
+    
+		    
+		
+	});
+	
+	
+	
+	
+	function getTest() {
+		
+
+    var id = $("#patient_id").val();
+
+	query.equalTo("userID", id);
+			query.find({
+				
+				success: function(results) {
+					
+					var output = "";
+					
+					
+						for (var i in results) {
+						console.log("Success");
+						var	date = results[i].get("createdAt");
+						var prescription = results[i].get("prescription");
+						var id = results[i].id;
+						idArray.push(id);
+						
+						
+						
+						
+						
+					        
+						
+						
+						var output = output + "\n" + "Test:" + number + "\n" +
+						               date + "\n" + 
+									   "Prescription: " + prescription + "\n";
+									  
+						number++;			  
+									  
+									  
+									  
+									  
+					}
+						
+						
+									  
+					 $("#history").html(output);				  
+					
+					
+					
+					
+				}, error: function(error) {
+					
+		                     alert("failed" + error.message);
+				}
+			});
+		
+		}
+	
+
+
+function getDisease() {
+	
+	
+	var output2 = "";
+	
+		for (var i in idArray){
+		id = idArray[i];
+				  
+					innerQuery.equalTo("testID", id);
+			innerQuery.find({
+				
+				success: function(results2) {
+					
+					
+					
+						
+						for (var a in results2) {
+						
+						var	name = results2[a].get("name");
+						var type = results2[a].get("type");
+						var value = results2[a].get("value_of_disease");
+						
+						
+							
+						output2 = output2 + "\n" + name + "\n"
+						              + value + "\n";
+									  
+							  
+							
+						}
+									  
+					
+					
+						
+						
+									  
+					 	$("#history2").html(output2);		  
+					
+					
+				
+					
+				}, error: function(error) {
+					
+		                     alert("failed" + error.message);
+				}
+			});
+						  
+						
+						
+						
+		}
+  $("#history2").html(output2);
+}
+
+
+$("#logout").click(function(event) {
+		
+		Parse.User.logOut();
+		
+		
+	});
+
+
+
+
+
+
+</script>
+</body>
+</html>

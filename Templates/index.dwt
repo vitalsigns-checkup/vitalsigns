@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Home Page</title>
+
+<style type="text/css">
+a {
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+}
+</style>
+</head>
+
+<body background="../background-images-for-websites-1-free-background-and-wallpaper.jpg">
+
+<h1> Welcome To Medical Care <br> V.S.C.S </h1>
+<p><img src="file:///C|/Users/Omar Khalifa/Desktop/provider-directories.jpg" width="1100" height="363" alt=""/></p>
+<form action="Signin.html">
+<button type="submit" name="btn-signin" > Sign In</button>
+</form>
+<form action="Signup.html">
+<button type="submit" name="btn-signup" > Sign Up</button>
+</form>
+</body>
+</html>
